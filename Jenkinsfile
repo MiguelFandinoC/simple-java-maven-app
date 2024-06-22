@@ -29,7 +29,8 @@ pipeline {
             steps {
                 // Construir la imagen Docker
                 script {
-                    docker.build dockerImageTag
+                    docker.build(dockerImageTag, 'src/main/java/com/mycompany/app')
+                    //docker.build dockerImageTag
                 }
             }
         }

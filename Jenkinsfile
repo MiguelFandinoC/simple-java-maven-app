@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         // Definir la etiqueta para la imagen Docker
-        dockerImageTag = "admin/CI-CD-Pipeline:${env.BUILD_NUMBER}"
+        dockerImageTag = "usuario/proyecto:${env.BUILD_NUMBER}"
     }
  
     stages {

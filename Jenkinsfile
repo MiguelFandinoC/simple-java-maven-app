@@ -3,6 +3,11 @@ pipeline {
     options {
         skipStagesAfterUnstable()
     }
+    environment {
+        // Definir la etiqueta para la imagen Docker
+        dockerImageTag = "admin/CI-CD-Pipeline:${env.BUILD_NUMBER}"
+    }
+ 
     stages {
         stage('Build') {
             steps {
@@ -19,10 +24,23 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
+        stage('Build Docker Image') {
             steps {
-                bat 'jenkins\\scripts\\deliver.bat' 
+                // Construir la imagen Docker
+                script {
+                    docker.build dockerImageTag
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                // Subir la imagen Docker a Docker Hub
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        docker.image(dockerImageTag).push()
+                    }
+                }
             }
         }
     }
-}
+    }

@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         // Definir la etiqueta para la imagen Docker
-        dockerImageTag = "miguel073/hello-world-miguel-tannia:${env.BUILD_NUMBER}"
+        dockerImageTag = "miguel073/hello-world-migueltannia:${env.BUILD_NUMBER}"
         
     }
  

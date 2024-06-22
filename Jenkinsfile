@@ -6,8 +6,8 @@ pipeline {
     environment {
         // Definir la etiqueta para la imagen Docker
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials') // ID de las credenciales en Jenkins
-        DOCKERHUB_USERNAME = "miguel073"
-        IMAGE_NAME = "hello-world-miguel-tannia"
+        DOCKERHUB_USERNAME = "${DOCKERHUB_CREDENTIALS_USR}"
+        IMAGE_NAME = "my-hello-world"
     }
  
     stages {
@@ -28,20 +28,21 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
+                // Construir la imagen Docker
                 script {
-                    docker.build("${DOCKERHUB_USERNAME}/${IMAGE_NAME}")
+                    docker.build dockerImageTag
                 }
             }
         }
-        
         stage('Push Docker Image') {
             steps {
+                // Subir la imagen Docker a Docker Hub
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
-                        docker.image("${DOCKERHUB_USERNAME}/${IMAGE_NAME}").push('latest')
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        docker.image(dockerImageTag).push()
                     }
                 }
             }
         }
     }
-}
+    }

@@ -5,9 +5,8 @@ pipeline {
     }
     environment {
         // Definir la etiqueta para la imagen Docker
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials') // ID de las credenciales en Jenkins
-        DOCKERHUB_USERNAME = "${DOCKERHUB_CREDENTIALS_USR}"
-        IMAGE_NAME = "my-hello-world"
+        dockerImageTag = "usuario/proyecto:${env.BUILD_NUMBER}"
+        
     }
  
     stages {
